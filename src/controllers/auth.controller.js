@@ -9,7 +9,16 @@ module.exports.Signup = async (req, res, next) => {
     if (existingUser) {
       return res.json({ message: "User already exists" });
     }
-    const user = await User.create({name,surname,dni,password,email,birthdate,phoneNumber,direction });
+    const user = await User.create({
+      name,
+      surname,
+      dni,
+      password,
+      email,
+      birthdate,
+      phoneNumber,
+      direction,
+      isAdmin: false});
     const token = createSecretToken(user._id);
     res.cookie("token", token, {
       withCredentials: true,
@@ -21,5 +30,74 @@ module.exports.Signup = async (req, res, next) => {
     next();
   } catch (error) {
     console.error(error);
+  }
+};
+module.exports.Login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    if(!email || !password ){
+      return res.json({message:'All fields are required'})
+    }
+    const user = await User.findOne({ email });
+    if(!user){
+      return res.json({message:'Incorrect password or email' }) 
+    }
+    const auth = await bcrypt.compare(password,user.password)
+    if (!auth) {
+      return res.json({message:'Incorrect password or email' }) 
+    }
+     const token = createSecretToken(user._id);
+     res.cookie("token", token, {
+       withCredentials: true,
+       httpOnly: false,
+     });
+     res.status(201).json({ message: "User logged in successfully", success: true });
+     next()
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+module.exports.DeleteUser = async (req, res, next) => {
+  try {
+    const userId = req.params.id;
+    await User.findByIdAndDelete(userId);
+    res.json({ message: "User deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+module.exports.GetAllUsers = async (req, res, next) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+module.exports.UpdateUser = async (req, res, next) => {
+  try {
+    const userId = req.params.id;
+    const updates = req.body;
+    const updatedUser = await User.findByIdAndUpdate(userId, updates, { new: true });
+    res.json(updatedUser);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+module.exports.GetUserById = async (req, res, next) => {
+  try {
+    const userId = req.params.id;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
