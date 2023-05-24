@@ -2,15 +2,16 @@ const User = require("../models/user.models");
 const { createSecretToken } = require("../utils/SecretToken");
 const bcrypt = require("bcrypt");
 
-module.exports.Signup = async (req, res, next) => {
+const Signup = async (req, res, next) => {
   try {
-    const { name,surname,dni,password,email,birthdate,phoneNumber,direction } = req.body;
+    const { name,username,surname,dni,password,email,birthdate,phoneNumber,direction } = req.body;
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.json({ message: "User already exists" });
     }
     const user = await User.create({
       name,
+      username,
       surname,
       dni,
       password,
@@ -32,7 +33,7 @@ module.exports.Signup = async (req, res, next) => {
     console.error(error);
   }
 };
-module.exports.Login = async (req, res, next) => {
+const Login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     if(!email || !password ){
@@ -58,7 +59,7 @@ module.exports.Login = async (req, res, next) => {
   }
 }
 
-module.exports.DeleteUser = async (req, res, next) => {
+const DeleteUser = async (req, res, next) => {
   try {
     const userId = req.params.id;
     await User.findByIdAndDelete(userId);
@@ -68,7 +69,7 @@ module.exports.DeleteUser = async (req, res, next) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
-module.exports.GetAllUsers = async (req, res, next) => {
+const GetAllUsers = async (req, res, next) => {
   try {
     const users = await User.find();
     res.json(users);
@@ -77,7 +78,7 @@ module.exports.GetAllUsers = async (req, res, next) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
-module.exports.UpdateUser = async (req, res, next) => {
+const UpdateUser = async (req, res, next) => {
   try {
     const userId = req.params.id;
     const updates = req.body;
@@ -88,7 +89,7 @@ module.exports.UpdateUser = async (req, res, next) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
-module.exports.GetUserById = async (req, res, next) => {
+const GetUserById = async (req, res, next) => {
   try {
     const userId = req.params.id;
     const user = await User.findById(userId);
@@ -101,3 +102,5 @@ module.exports.GetUserById = async (req, res, next) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+module.exports = {Login,Signup, DeleteUser, GetUserById,UpdateUser,GetAllUsers};
