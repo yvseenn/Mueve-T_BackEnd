@@ -4,15 +4,19 @@ const Schema = mongoose.Schema;
 
 const carSchema = new Schema({
     brand: {
-        type: 'string',
+        type: String,
         required: [true, "Brand is required"]
     },
     model: {
-        type: 'string',
+        type: String,
         required: [true, "Model is required"]
     },
+    licensePlate: {
+        type: String,
+        required: [true, "License is required"]
+    },
     image:{
-        type: 'string',
+        type: String,
         required: [true, "Image is required"]
     },
     year: {
@@ -25,11 +29,11 @@ const carSchema = new Schema({
     },   
     purchasePrice:{
         type: String,
-        required: [true, "Price is required"]
+        required: [false, "Price is required"]
     },
     rentPrice:{
         type: String,
-        required: [true, "Price is required"]
+        required: [false, "Price is required"]
     },
     
 });
