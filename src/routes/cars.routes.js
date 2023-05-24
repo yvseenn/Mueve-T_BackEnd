@@ -2,7 +2,7 @@ const express = require('express');
 
 const router =express.Router()
 const upload = require('../middlewares/uploadFileCloudinary');
-const {userVerification} = require('../middlewares/auth.middelwares');
+const {isUser,isRoot,isAdmin} = require('../middlewares/access.middleware');
 
 const {
     getAll, 
@@ -15,8 +15,8 @@ const {
 
 router.get('/',getAll);
 router.get('/:id',getByID);
-router.post('/', [userVerification],upload.single('image'),addCar);
-router.delete('/', [userVerification],upload.single('image'),deleteCar);
-router.patch('/', [userVerification],upload.single('image'),modifyCar);
+router.post('/', [isAdmin],upload.single('image'),addCar);
+router.delete('/', [isAdmin],upload.single('image'),deleteCar);
+router.patch('/', [isAdmin],upload.single('image'),modifyCar);
 
 module.exports = router;

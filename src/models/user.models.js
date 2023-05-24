@@ -36,8 +36,8 @@ const userSchema = new mongoose.Schema({
       message: 'Please enter a valid email',
     },
   },
-  isAdmin: {
-    type: Boolean,
+  role: {
+    type: String,
     required: false,
   },
   birthdate: {

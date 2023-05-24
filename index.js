@@ -41,4 +41,4 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use("/auth", authRoute);
-app.use("/cars", carRouter);
+app.use("/fleet", carRouter);

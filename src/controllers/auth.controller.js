@@ -19,7 +19,8 @@ const Signup = async (req, res, next) => {
       birthdate,
       phoneNumber,
       direction,
-      isAdmin: false});
+      role:"user",
+    });
     const token = createSecretToken(user._id);
     res.cookie("token", token, {
       withCredentials: true,
