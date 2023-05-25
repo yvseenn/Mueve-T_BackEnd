@@ -5,27 +5,27 @@ const Schema = mongoose.Schema;
 const carSchema = new Schema({
     brand: {
         type: String,
-        required: [true, "Brand is required"]
+        required: [false, "Brand is required"]
     },
     model: {
         type: String,
-        required: [true, "Model is required"]
+        required: [false, "Model is required"]
     },
     licensePlate: {
         type: String,
-        required: [true, "License is required"]
+        required: [false, "License is required"]
     },
     image:{
         type: String,
-        required: [true, "Image is required"]
+        required: [false, "Image is required"]
     },
     year: {
         type: Number,
-        required: [true, "Year is required"]
+        required: [false, "Year is required"]
     },
     condition: {
         type: Number,
-        required: [true, "Condition is required"]
+        required: [false, "Condition is required"]
     },   
     purchasePrice:{
         type: String,

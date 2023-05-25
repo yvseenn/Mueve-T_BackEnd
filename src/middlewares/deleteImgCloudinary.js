@@ -8,4 +8,4 @@ const deleteFile = (imgUrl) => {
         console.log('Image deleted in cloudinary')
     })
 }
-module.exports = { deleteFile }
+module.exports =  deleteFile 

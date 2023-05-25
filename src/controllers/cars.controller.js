@@ -30,7 +30,7 @@ const getByID = async function (req, res, next) {
         return res.json ({
             status: 200,
             message: HTTPSTATUSCODE[200],
-            Post: carByID,
+            Vehicle: carByID,
         })
     } catch (error) {
         return next(error);
@@ -57,7 +57,7 @@ const addCar = async ( req, res , next) => {
         return res.status(201).json({
             status:201,
             message: HTTPSTATUSCODE[201],
-            Post: addedCar,
+            Vehicle: addedCar,
         })
     } catch (error) {
         return next(error);
@@ -78,7 +78,7 @@ const deleteCar = async (req, res, next) => {
         if (carDeleted.image){
             deleteFile(carDeleted.image)
         }
-        return res.stauts(200).json(carDeleted);
+        return res.status(200).json(carDeleted);
     } catch (error) {
         return next(error);
     }
@@ -87,6 +87,8 @@ const modifyCar = async (req, res, next) => {
     try {
         const {id} = req.params;
         const carInfo = await Car.findById(id);
+        const patchedInfo = new Car(req.body);
+        patchedInfo._id = id
         if(!carInfo){
             return res.status(404).json({
                 status:404,
@@ -94,25 +96,19 @@ const modifyCar = async (req, res, next) => {
                 error: "Car not found",
             });
         }
-        if (req.file) {
+        if (req.body) {
+            // console.log(req.body);
             if(carInfo.image){
                 deleteFile(carInfo.image)
             }
-            carInfo.image = req.file.path;
+            if(req.file){
+                patchedInfo.image = req.file.path
+            }
         }
-        carInfo.brand =req.file.path
-        carInfo.model =req.file.path
-        carInfo.licensePlate =req.file.path
-        carInfo.image =req.file.path
-        carInfo.year =req.file.path
-        carInfo.condition =req.file.path
-        carInfo.year =req.file.path
-        carInfo.purchasePrice =req.file.path
-        carInfo.rentPrice =req.file.path
-        const updatedInfo = await carInfo.save()
-        return res.status(200).json({new:updatedInfo, old:carInfo});
+        const savedInfo = await Car.findByIdAndUpdate(id, patchedInfo)
+        return res.status(200).json({new:savedInfo, old:carInfo});
     } catch (error) {
-        return next(error);
+            return next(error);
     }
 }
 
