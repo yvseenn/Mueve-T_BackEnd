@@ -5,11 +5,11 @@ const Schema = mongoose.Schema;
 const rentSchema = new Schema({
     client:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"dni"
+        ref:"User"
     },
     car:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"licensePlate"
+        ref:"Car"
     },
     sDate:{
         type:Date,
@@ -20,8 +20,8 @@ const rentSchema = new Schema({
         required:[true, "End date is required"]
     },
     rentPrice:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"rentPrice"
+        type:Number,
+        required:[true, "rent price is required"]
     },
     finalized:{
         type:Boolean,

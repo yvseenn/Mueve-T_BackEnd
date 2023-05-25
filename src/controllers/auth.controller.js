@@ -81,15 +81,20 @@ const GetAllUsers = async (req, res, next) => {
 };
 const UpdateUser = async (req, res, next) => {
   try {
-    const userId = req.params.id;
-    const updates = req.body;
-    const updatedUser = await User.findByIdAndUpdate(userId, updates, { new: true });
-    res.json(updatedUser);
+    const {id} = req.params;
+    const userInfo = await User.findByIdAndUpdate(id, req.body);
+    if(!userInfo){
+      return res.status(404).json({
+        status:404,
+        message:HTTPSTATUSCODE[404],
+        error:"User not found",
+      });
+    }
+    return res.status(200).json(userInfo);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    return next(error)
   }
-};
+}; 
 const GetUserById = async (req, res, next) => {
   try {
     const userId = req.params.id;

@@ -9,6 +9,7 @@ const { MONGO_URL, PORT } = process.env;
 const cloudinary=require("cloudinary").v2;
 const logger = require("morgan");
 const carRouter = require("./src/routes/cars.routes");
+const rentRouter = require("./src/routes/rent.routes");
 
 mongoose
 .connect(MONGO_URL, {
@@ -40,5 +41,6 @@ app.use(cookieParser());
 
 app.use(express.json());
 
-app.use("/auth", authRoute);
+app.use("/user", authRoute);
 app.use("/fleet", carRouter);
+app.use("/rental",rentRouter);

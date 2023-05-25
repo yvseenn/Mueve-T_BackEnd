@@ -14,7 +14,7 @@ const createRent = async function (req, res) {
 
 const getAll = async function (req, res) {
     try {
-      const rents = await Rents.find().populate('client car licensePlate');// llamar al cliente
+      const rents = await Rents.find().populate(['client','car']);// llamar al cliente
       res.status(200).json(rents);
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -28,3 +28,5 @@ const getByPlate = async function (req, res) {
 
 
 }
+
+module.exports = {getAll, getByPlate, createRent}
