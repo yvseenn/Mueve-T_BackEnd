@@ -1,5 +1,6 @@
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
+const userModels = require("../models/user.models");
 
 module.exports.createSecretToken = (id) => {
   return jwt.sign({ id }, process.env.TOKEN_KEY, {
@@ -14,10 +15,11 @@ module.exports.getUserFromToken = async (token) => {
 
   try {
     const data = await jwt.verify(token, process.env.TOKEN_KEY) 
-        const user = await user.findById(data.id)
+        const user = await userModels.findById(data.id)
         if (user) return (user)
         else return (null)
   } catch (error) {
+    console.log(error)
       return (null)
   }
 }
