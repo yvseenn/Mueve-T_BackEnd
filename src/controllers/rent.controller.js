@@ -22,11 +22,25 @@ const getAll = async function (req, res) {
   };
   
 
-const getByPlate = async function (req, res) {
-
-    
-
-
+  const getByID = async function (req, res, next) {
+    try {
+        const id = req.params.id;
+        const rentalByID = await Rents.findById(id);
+        if (!rentalByID){
+            return res.status(404).json({
+                status: 404,
+                message: HTTPSTATUSCODE[404],
+                error: "Rental not found",
+            })
+        }
+        return res.json ({
+            status: 200,
+            message: HTTPSTATUSCODE[200],
+            Vehicle: rentalByID,
+        })
+    } catch (error) {
+        return next(error);
+    }
 }
 
-module.exports = {getAll, getByPlate, createRent}
+module.exports = {getAll, getByID, createRent}

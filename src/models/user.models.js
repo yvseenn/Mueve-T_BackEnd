@@ -26,15 +26,6 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [false, 'User email is required'],
-    unique: false,
-    trim: false,
-    lowercase: false,
-    validate: {
-      validator: function (v) {
-        return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v);
-      },
-      message: 'Please enter a valid email',
-    },
   },
   role: {
     type: String,
