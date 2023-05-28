@@ -10,8 +10,8 @@ const {
 
 router.get('/', getAll);
 router.get('/:id', getByID);
-router.post('/' ,isAdmin,isUser, createRent);
-router.patch('/:id',isAdmin,isUser, updateRent);
+router.post('/' , createRent);
+router.patch('/:id', updateRent);
 router.delete('/',isAdmin, deleteAll);
 
 
