@@ -14,7 +14,7 @@ const createRent = async function (req, res) {
 
 const getAll = async function (req, res) {
     try {
-      const rents = await Rents.find().populate(['client','car']);// llamar al cliente
+      const rents = await Rents.find().populate(['client','car']);
       res.status(200).json(rents);
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -43,4 +43,28 @@ const getAll = async function (req, res) {
     }
 }
 
-module.exports = {getAll, getByID, createRent}
+const updateRent = async function (req, res, next) {
+    try {
+        const id = req.params.id;
+        const updatedRent = req.body;
+        const rental = await Rents.findByIdAndUpdate(id, updatedRent, { new: true });
+        
+        if (!rental) {
+            return res.status(404).json({
+                status: 404,
+                message: HTTPSTATUSCODE[404],
+                error: "Rental not found",
+            });
+        }
+
+        return res.json({
+            status: 200,
+            message: HTTPSTATUSCODE[200],
+            updatedRent: rental,
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+module.exports = { getAll, getByID, createRent, updateRent };
