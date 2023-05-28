@@ -8,10 +8,10 @@ const {
 
 router.post('/signup', Signup)
 router.post('/login', Login)
-router.delete('/:id', DeleteUser)
-router.patch('/:id', UpdateUser)
-router.get('/:id', GetUserById)
-router.get('/', GetAllUsers)
+router.delete('/:id',isAdmin,isUser, DeleteUser)
+router.patch('/:id',isAdmin,isUser, UpdateUser)
+router.get('/:id',isAdmin,isUser, GetUserById)
+router.get('/',GetAllUsers)
 
 
 module.exports = router

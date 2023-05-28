@@ -19,10 +19,6 @@ const rentSchema = new Schema({
         type:Date,
         required:[true, "End date is required"]
     },
-    rentPrice:{
-        type:Number,
-        required:[true, "rent price is required"]
-    },
     finalized:{
         type:Boolean,
         required:[false, "Marke as finalized if so"]

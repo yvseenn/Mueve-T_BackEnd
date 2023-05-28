@@ -67,4 +67,19 @@ const updateRent = async function (req, res, next) {
     }
 };
 
-module.exports = { getAll, getByID, createRent, updateRent };
+const deleteAll = async function (req, res, next) {
+    try {
+      await Rents.deleteMany();
+      return res.json({
+        status: 200,
+        message: HTTPSTATUSCODE[200],
+        deletedCount: "All rentals deleted",
+      });
+    } catch (error) {
+      return next(error);
+    }
+  };
+  
+  module.exports = { getAll, getByID, createRent, updateRent, deleteAll };
+  
+
