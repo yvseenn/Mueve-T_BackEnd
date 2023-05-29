@@ -1,30 +1,43 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
 
-const carSchema = new mongoose.Schema({
+const Schema = mongoose.Schema;
+
+const carSchema = new Schema({
     brand: {
-        type: 'string',
-        required: [true, "Brand is required"]
+        type: String,
+        required: [false, "Brand is required"]
     },
     model: {
-        type: 'string',
-        required: [true, "Model is required"]
+        type: String,
+        required: [false, "Model is required"]
+    },
+    licensePlate: {
+        type: String,
+        required: [false, "License is required"]
+    },
+    image:{
+        type: String,
+        required: [false, "Image is required"]
     },
     year: {
         type: Number,
-        required: [true, "Year is required"]
+        required: [false, "Year is required"]
     },
     condition: {
         type: Number,
-        required: [true, "Condition is required"]
+        required: [false, "Condition is required"]
     },   
     purchasePrice:{
         type: String,
-        required: [true, "Price is required"]
+        required: [false, "Price is required"]
     },
     rentPrice:{
         type: String,
-        required: [true, "Price is required"]
+        required: [false, "Price is required"]
     },
     
 });
+
+const Cars = mongoose.model('Car',carSchema);
+
+module.exports = Cars;
